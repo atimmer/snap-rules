@@ -1,5 +1,5 @@
 import { expect, test } from "vitest";
-import { isPair, isQuadruple, isTriple } from "./combinations";
+import { isFullHouse, isPair, isQuadruple, isTriple } from "./combinations";
 import { fromNormalRanks } from "~/logic/cards";
 
 test("isPair", () => {
@@ -35,4 +35,22 @@ test("isQuadruple", () => {
   expect(isQuadruple(fromNormalRanks(["two", "three", "four", "ace"]))).toBe(
     false,
   );
+});
+
+test("isFullHouse", () => {
+  expect(
+    isFullHouse(fromNormalRanks(["two", "two", "two", "three", "three"])),
+  ).toBe(true);
+  expect(
+    isFullHouse(fromNormalRanks(["three", "three", "three", "two", "two"])),
+  ).toBe(true);
+  expect(
+    isFullHouse(fromNormalRanks(["ace", "three", "ace", "three", "ace"])),
+  ).toBe(true);
+  expect(
+    isFullHouse(fromNormalRanks(["three", "ace", "three", "ace", "three"])),
+  ).toBe(true);
+  expect(
+    isFullHouse(fromNormalRanks(["king", "three", "king", "three", "ace"])),
+  ).toBe(false);
 });

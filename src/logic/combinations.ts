@@ -1,35 +1,59 @@
-import { Card, isNormalCard } from "~/logic/cards";
+import { Card, isNormalCard, sortCards } from "~/logic/cards";
+
+export function isTwoCards(cards: Card[]): cards is [Card, Card] {
+  return cards.length === 2;
+}
+
+export function isThreeCards(cards: Card[]): cards is [Card, Card, Card] {
+  return cards.length === 3;
+}
+
+export function isFourCards(cards: Card[]): cards is [Card, Card, Card, Card] {
+  return cards.length === 4;
+}
+
+export function isFiveCards(
+  cards: Card[],
+): cards is [Card, Card, Card, Card, Card] {
+  return cards.length === 5;
+}
 
 export function isPair(cards: Card[]): cards is [Card, Card] {
   return (
-    cards.length === 2 &&
+    isTwoCards(cards) &&
     cards.every(isNormalCard) &&
-    // @ts-expect-error - Because length is 2 this is valid
     cards[0].rank === cards[1].rank
   );
 }
 
 export function isTriple(cards: Card[]): cards is [Card, Card, Card] {
   return (
-    cards.length === 3 &&
+    isThreeCards(cards) &&
     cards.every(isNormalCard) &&
-    // @ts-expect-error - Because length is 3 this is valid
     cards[0].rank === cards[1].rank &&
-    // @ts-expect-error - Because length is 3 this is valid
     cards[1].rank === cards[2].rank
   );
 }
 
 export function isQuadruple(cards: Card[]): cards is [Card, Card, Card, Card] {
   return (
-    cards.length === 4 &&
+    isFourCards(cards) &&
     cards.every(isNormalCard) &&
-    // @ts-expect-error - Because length is 4 this is valid
     cards[0].rank === cards[1].rank &&
-    // @ts-expect-error - Because length is 4 this is valid
     cards[1].rank === cards[2].rank &&
-    // @ts-expect-error - Because length is 4 this is valid
     cards[2].rank === cards[3].rank
+  );
+}
+
+export function isFullHouse(cards: Card[]) {
+  cards = sortCards(cards);
+
+  return (
+    isFiveCards(cards) &&
+    ((isTriple([cards[0], cards[1], cards[2]]) &&
+      isPair([cards[3], cards[4]])) ||
+      (isPair([cards[0], cards[1]]) &&
+        isTriple([cards[2], cards[3], cards[4]])))
   );
 }
 

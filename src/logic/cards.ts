@@ -106,7 +106,7 @@ export function getNumericRank(card: Card) {
 }
 
 export function sortCards(cards: Card[]) {
-  return cards.sort((a, b) => {
+  return [...cards].sort((a, b) => {
     const aRank = getNumericRank(a);
     const bRank = getNumericRank(b);
 
