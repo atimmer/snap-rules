@@ -55,3 +55,53 @@ export function isNormalCard(card: Card): card is NormalCard {
     rank === "ace"
   );
 }
+
+export function getNumericRank(card: Card) {
+  switch (card.rank) {
+    case "one":
+      return 1;
+    case "two":
+      return 2;
+    case "three":
+      return 3;
+    case "four":
+      return 4;
+    case "five":
+      return 5;
+    case "six":
+      return 6;
+    case "seven":
+      return 7;
+    case "eight":
+      return 8;
+    case "nine":
+      return 9;
+    case "ten":
+      return 10;
+    case "jack":
+      return 11;
+    case "queen":
+      return 12;
+    case "king":
+      return 13;
+    case "ace":
+      return 14;
+    case "phoenix":
+      return 15;
+    case "dragon":
+      return 16;
+    case "dog":
+      return 17;
+  }
+}
+
+export function sortCards(cards: Card[]) {
+  return cards.sort((a, b) => {
+    const aRank = getNumericRank(a);
+    const bRank = getNumericRank(b);
+
+    if (aRank === bRank) return 0;
+
+    return aRank - bRank;
+  });
+}
