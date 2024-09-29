@@ -24,7 +24,7 @@ export type SpecialCard = {
 
 export type NormalCard = {
   rank: NormalCardRank;
-  suit: never;
+  suit: Suit;
 };
 
 export type Card = SpecialCard | NormalCard;
@@ -36,9 +36,15 @@ export function isSpecialCard(card: Card): card is SpecialCard {
   );
 }
 
-export function isNormalCard(card: Card): card is NormalCard {
-  const rank = card.rank;
+export function fromNormalRank(rank: NormalCardRank): NormalCard {
+  return { rank, suit: "hearts" };
+}
 
+export function fromNormalRanks(ranks: NormalCardRank[]): NormalCard[] {
+  return ranks.map(fromNormalRank);
+}
+
+export function isNormalCardRank(rank: CardRank): rank is NormalCardRank {
   return (
     rank === "two" ||
     rank === "three" ||
@@ -54,6 +60,10 @@ export function isNormalCard(card: Card): card is NormalCard {
     rank === "king" ||
     rank === "ace"
   );
+}
+
+export function isNormalCard(card: Card): card is NormalCard {
+  return isNormalCardRank(card.rank);
 }
 
 export function getNumericRank(card: Card) {
