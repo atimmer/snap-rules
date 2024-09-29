@@ -1,5 +1,11 @@
 import { expect, test } from "vitest";
-import { isFullHouse, isPair, isQuadruple, isTriple } from "./combinations";
+import {
+  isConsecutivePair,
+  isFullHouse,
+  isPair,
+  isQuadruple,
+  isTriple,
+} from "./combinations";
 import { fromNormalRanks } from "~/logic/cards";
 
 test("isPair", () => {
@@ -52,5 +58,70 @@ test("isFullHouse", () => {
   ).toBe(true);
   expect(
     isFullHouse(fromNormalRanks(["king", "three", "king", "three", "ace"])),
+  ).toBe(false);
+});
+
+test("isConsecutivePair", () => {
+  expect(
+    isConsecutivePair(fromNormalRanks(["two", "two", "three", "three"])),
+  ).toBe(true);
+  expect(
+    isConsecutivePair(fromNormalRanks(["jack", "jack", "queen", "queen"])),
+  ).toBe(true);
+  expect(
+    isConsecutivePair(fromNormalRanks(["two", "three", "two", "three"])),
+  ).toBe(true);
+  expect(
+    isConsecutivePair(fromNormalRanks(["two", "two", "three", "four"])),
+  ).toBe(false);
+  expect(
+    isConsecutivePair(fromNormalRanks(["two", "two", "three", "queen"])),
+  ).toBe(false);
+  expect(
+    isConsecutivePair(
+      fromNormalRanks(["two", "two", "three", "three", "four", "four"]),
+    ),
+  ).toBe(true);
+  expect(
+    isConsecutivePair(
+      fromNormalRanks(["two", "two", "three", "three", "four", "queen"]),
+    ),
+  ).toBe(false);
+  expect(
+    isConsecutivePair(
+      fromNormalRanks(["jack", "jack", "queen", "queen", "king", "king"]),
+    ),
+  ).toBe(true);
+  expect(
+    isConsecutivePair(
+      fromNormalRanks([
+        "jack",
+        "jack",
+        "queen",
+        "queen",
+        "king",
+        "king",
+        "ten",
+        "ten",
+        "ace",
+        "ace",
+      ]),
+    ),
+  ).toBe(true);
+  expect(
+    isConsecutivePair(
+      fromNormalRanks([
+        "jack",
+        "jack",
+        "queen",
+        "queen",
+        "king",
+        "king",
+        "ten",
+        "ten",
+        "queen",
+        "king",
+      ]),
+    ),
   ).toBe(false);
 });
